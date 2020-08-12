@@ -3,6 +3,9 @@ import { View, Platform, StyleSheet, Text, ScrollView, Image} from 'react-native
 import { createStackNavigator, createDrawerNavigator, DrawerItems} from "react-navigation";
 import { Icon } from "react-native-elements";
 import SafeAreaView from 'react-native-safe-area-view';
+import { connect } from 'react-redux';
+import { fetchCampsites, fetchComments, fetchPromotions,
+    fetchPartners } from '../redux/ActionCreators';
 
 import CampsiteInfo from "./CampsiteInfoComponent";
 import Directory from "./DirectoryComponent";
@@ -10,6 +13,12 @@ import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 
+const mapDispatchToProps = {
+  fetchCampsites,
+  fetchComments,
+  fetchPromotions,
+  fetchPartners
+};
 
 const DirectoryNavigator = createStackNavigator(
   {
@@ -193,6 +202,13 @@ const MainNavigator = createDrawerNavigator(
 
 
 class Main extends Component {
+
+  componentDidMount(){
+    this.props.fetchCampsites();
+    this.props.fetchComments();
+    this.props.fetchPromotions();
+    this.props.fetchPartners();
+  }
   render() {
     return (
       <View
@@ -238,4 +254,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);
